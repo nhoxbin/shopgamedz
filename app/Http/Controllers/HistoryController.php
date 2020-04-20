@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Auth;
+use App\User;
+use App\BuyBill;
+use App\RechargeBill;
+use App\TransferBill;
+use Ixudra\Curl\Facades\Curl;
+use Illuminate\Http\Request;
+
+class HistoryController extends Controller
+{
+    public function array_sort_by_column(&$arr, $col, $dir = SORT_ASC) {
+        $sort_col = array();
+        foreach ($arr as $key => $row) {
+            $sort_col[$key] = $row[$col];
+        }
+
+        array_multisort($sort_col, $dir, $arr);
+    }
+
+    public function transaction_history() {
+        $user = User::with([
+            'recharge_bills' => function($q) {
+                $q->with(['nganluong', 'card' => function($q) {
+                    $q->with('sim');
+                }]);
+            }, 'buy_bills' => function($q) {
+                $q->with(['package' => function($q) {
+                    $q->with('game');
+                }]);
+            }, 'transfer_bills_sender' => function($q) {
+                $q->with('from', 'to');
+            }, 'transfer_bills_receiver' => function($q) {
+                $q->with('from', 'to');
+            }, 'shakes' => function($q) {
+                $q->with('shake_prize');
+            }
+        ])->find(auth()->id())->toArray();
+        
+        // $this->array_sort_by_column($histories, 'date', SORT_DESC);
+    	return view('histories', compact('user'));
+    }
+
+    public function checkCard(Request $rq, RechargeBill $recharge_bill) {
+        if ($recharge_bill->user->id === Auth::id() || Auth::user()->role === 1) {
+            $telcoId = ['Viettel' => 1, 'Vinaphone' => 2, 'Mobiphone' => 3];
+            if ($recharge_bill->type === 'card' && array_key_exists($recharge_bill->card->sim->name, $telcoId)) {
+                $curl = json_decode(Curl::to('https://api.2ahvqkxsuzrrlvqigar8.com/id')
+                    ->withData([
+                        'command' => "loginHash",
+                        'username' => 'hungvippy1112',
+                        'password' => 'hungnohu',
+                        'platformId' => 4,
+                        'deviceId' => '446c87c2-a001-4b60-2b97-fb42ada14a3d',
+                        'hash' => '0fa2c21e99efa7518c825626ab6b3f24',
+                    ])->post(), true);
+
+                if ($curl['status'] == 0) {
+                    $accessToken = $curl['data']['accessToken'];
+
+                    $url = "https://api.2ahvqkxsuzrrlvqigar8.com/paygate?command=fetchCardHistory&limit=1500&skip=0";
+                    $curl = json_decode(Curl::to($url)->withHeader('authorization: ' . $accessToken)->get(), true);
+
+                    $serial = $recharge_bill->card->serial;
+                    $card = array_filter($curl['data']['items'], function($card) use ($serial) {
+                        return $card['serial'] == $serial;
+                    });
+                    if (!empty($card)) {
+                        $card = reset($card);
+
+                        // 1099: thẻ đang được xử lý
+                        if ($card['status'] == 1010) {
+                            // Giao dịch thất bại
+                            $recharge_bill->confirm = -1;
+                            $recharge_bill->reason = 'Thẻ không hợp lệ. '.$card['statusMessage'];
+                            $recharge_bill->save();
+
+                            return redirect()->back()->withError($card['statusMessage']);
+                        } elseif ($card['status'] == 0) {
+                            // Giao dịch thành công
+                            if ($recharge_bill->confirm === 0) {
+                                $discount = (int) preg_replace('/%/', '', $recharge_bill->card->sim->discount);
+                                if ($recharge_bill->card->sim->name === 'Viettel') {
+                                    $amount = $card['netValue']/80*100;
+                                } else {
+                                    $amount = $card['netValue']/70*100;
+                                }
+
+                                $user = User::find(auth()->id());
+                                $cash = Auth::user()->cash + ($amount - ($amount * $discount / 100));
+                                $user->cash = $cash;
+                                $user->save();
+
+                                $recharge_bill->confirm = 1;
+                                $recharge_bill->save();
+
+                                return redirect()->back()->withSuccess($card['statusMessage']);
+                            }
+                            return redirect()->back()->withError('Thẻ này đã được kiểm tra thành công.');
+                        }
+                        return redirect()->back()->withError("Error code: $card[status]. $card[statusMessage]");
+                    }
+                    $recharge_bill->delete();
+                    return redirect()->back()->withError('Thẻ không nằm trên hệ thống.');
+                }
+                return redirect()->back()->withError('Lỗi nạp thẻ, vui lòng liên hệ Admin.');
+            }
+            return redirect()->back()->withError('Lỗi khi kiểm tra thẻ cào!');
+        }
+        return redirect()->back()->withError('Lỗi không thể kiểm tra hóa đơn!');
+    }
+}
