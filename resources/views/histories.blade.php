@@ -9,20 +9,15 @@
                 <table id="tblRecharge" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <td>Ngày</td>
+                            <td>Hành động</td>
                             <td>Mã GD</td>
                             <td>Số tiền</td>
                             <td>Hình thức</td>
-                            <td>Hành động</td>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($user['recharge_bills'] as $recharge_bill)
                             <tr>
-                                <td>{{ $recharge_bill['created_at'] }}</td>
-                                <td>{{ $recharge_bill['id'] }}</td>
-                                <td>{{ number_format($recharge_bill['money']) }}₫</td>
-                                <td>{{ $recharge_bill['type'] . '(' . $recharge_bill['card']['sim']['name'] . ')' }}</td>
                                 <td>
                                     @if($recharge_bill['confirm'] === 0)
                                         @if($recharge_bill['type'] === 'nganluong')
@@ -36,6 +31,9 @@
                                         Thanh toán hóa đơn thành công.
                                     @endif
                                 </td>
+                                <td>{{ $recharge_bill['id'] }}</td>
+                                <td>{{ number_format($recharge_bill['money']) }}₫</td>
+                                <td>{{ $recharge_bill['type'] . '(' . $recharge_bill['card']['sim']['name'] . ')' }}</td>
                             </tr>
                         @endforeach
                     </tbody>
