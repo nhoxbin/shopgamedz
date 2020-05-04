@@ -263,7 +263,6 @@ class RechargeController extends Controller {
                         $msg = 'Hóa đơn này đã được xác nhận!';
                     } else {
                         $nl->recharge_bill->confirm = 1;
-                        $nl->recharge_bill->comment = 'Đã xác nhận.';
                         $nl->recharge_bill->save();
 
                         $nl->recharge_bill->user->cash += $nl_result->data->total_amount;
