@@ -65,15 +65,19 @@ class RechargeController extends Controller {
 		try {
 			if ($request->type === 'card') {
 				$request->validate([
-					'sim_id' => 'required|numeric',
+					'sim_id' => 'required|numeric|exists:sims,id',
 					'money' => 'required|max:4|string',
 					'serial' => 'required|string|unique:cards',
 					'code' => 'required|string|unique:cards',
 				], [
+                    'sim_id.exists' => 'Không được phép nạp thẻ hoặc đang bảo trì!',
                     '*.required' => 'Vui lòng điền đầy đủ!',
                     '*.unique' => 'Thẻ đã được sử dụng'
                 ]);
 				$sim = Sim::find($request->sim_id);
+                if ($sim->maintenance) {
+                    return back()->withError('Đã nói là đang bảo trì mà!!!');
+                }
 				$amount = (int) preg_replace('/K/', '000', $request->money);
                 
                 $telcoId = ['Viettel' => 1, 'Vinaphone' => 2, 'Mobiphone' => 3];

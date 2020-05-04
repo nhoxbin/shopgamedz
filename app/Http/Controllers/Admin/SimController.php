@@ -44,6 +44,15 @@ class SimController extends Controller
         return response(['errors' => null, 'message' => 'Cập nhật thành công!'], 200);
     }
 
+    public function maintenance() {
+        $sims = Sim::all();
+        foreach ($sims as $sim) {
+            $sim->maintenance = !$sim->maintenance;
+            $sim->save();
+        }
+        return back()->withSuccess('Thành công!');
+    }
+
     public function destroy(Request $request, Sim $sim) {
         if (!$request->ajax()) {
             return response(null, 400);

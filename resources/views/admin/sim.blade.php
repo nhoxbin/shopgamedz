@@ -9,6 +9,13 @@
 				<button type="button" class="btn btn-primary" @@click="addSim" data-toggle="modal" data-target="#simModal">
 					Thêm nhà mạng
 				</button>
+
+				<form action="{{ route('admin.sim.maintenance') }}" method="post">
+					@csrf
+					<button type="submit" class="btn btn-primary">
+						Bảo trì / Ngưng
+					</button>
+				</form>
 			</div>
 
 			<!-- Modal thêm gói -->
@@ -52,6 +59,7 @@
 				    <tr>
 				      <th>Tên</th>
 				      <th>Chiết khấu</th>
+				      <th>Bảo trì</th>
 				      <th>Hành động</th>
 				    </tr>
 				  </thead>
@@ -99,6 +107,7 @@
 				        columns: [
 				            { data: 'name' },
 				            { data: 'discount' },
+				            { data: 'maintenance' },
 				            { data: 'actions', orderable: false, searchable: false }
 				        ]
 					});

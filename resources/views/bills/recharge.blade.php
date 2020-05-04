@@ -58,7 +58,12 @@
                                     <div class="col-xs-12 input-block">
                                         <select name="sim_id" id="sim" class="form-control">
                                             @foreach($sims as $sim)
-                                                <option value="{{ $sim['id'] }}">{{ $sim['name'] . ' - ' . $sim['discount']}}</option>
+                                                @if(!$sim['maintenance'])
+                                                    <option value="{{ $sim['id'] }}">{{ $sim['name'] . ' - ' . $sim['discount']}}</option>
+                                                @else
+                                                    <option value="0">Nạp thẻ cào đang bảo trì!!!</option>
+                                                    
+                                                @endif
                                             @endforeach
                                         </select>
                                         <div class="clearfix"></div>

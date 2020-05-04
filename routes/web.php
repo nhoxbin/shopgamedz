@@ -24,7 +24,8 @@ Route::group([
         'only' => ['index', 'show', 'update', 'destroy']
     ]);
 
-    // nạp tiền
+    // nhà mạng
+    Route::post('sim/maintenance', 'SimController@maintenance')->name('sim.maintenance');
     Route::resource('sim', 'SimController', [
         'names' => 'sim',
         'only' => ['index', 'store', 'edit', 'update', 'destroy']

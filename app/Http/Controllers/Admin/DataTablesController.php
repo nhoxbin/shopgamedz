@@ -50,6 +50,7 @@ class DataTablesController extends Controller
         for ($i = 0; $i < count($sim); $i++) {
             $rt_dt[$i]['name'] = $sim[$i]['name'];
             $rt_dt[$i]['discount'] = $sim[$i]['discount'];
+            $rt_dt[$i]['maintenance'] = $sim[$i]['maintenance'] ? 'Có' : 'Không';
             $rt_dt[$i]['actions'] = '<div class="btn-group btn-group-sm" role="group" aria-label="action button">
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#simModal" onclick="app.editSim('.$sim[$i]['id'].')">Sửa</button>
                                     <button type="button" class="btn btn-danger" onclick="app.deleteSim('.$sim[$i]['id'].')">Xóa</button>
