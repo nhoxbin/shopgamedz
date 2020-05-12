@@ -57,16 +57,16 @@
     	    </a>
 	    @endforeach
 	</div>
-	{{-- <div class="other-function-container">
-	    <a href="{{ route('dashboard') }}">
+	<div class="other-function-container">
+	    <a href="https://www.facebook.com/vlHungDZ/">
 	        <div class="other-function-content shadow">
-	            <img src="{{ asset('libs/baokim/images/lien-ket-the.svg') }}">
+	            <img src="https://i.imgur.com/ugfVQ0w.png">
 	            <div class="content-text">
-	                <span>Lịch sử nạp tiền</span>
+	                <span>Liên Hệ Facebook Admin</span>
 	            </div>
 	        </div>
 	    </a>
-	</div> --}}
+	</div>
 </div>
 @endsection
 @push('style')
