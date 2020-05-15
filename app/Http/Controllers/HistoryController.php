@@ -83,16 +83,26 @@ class HistoryController extends Controller
                             // Giao dịch thành công
                             if ($recharge_bill->confirm === 0) {
                                 $discount = (int) preg_replace('/%/', '', $recharge_bill->card->sim->discount);
-                                if ($recharge_bill->card->sim->name === 'Viettel') {
-                                    $amount = $card['netValue']/80*100;
-                                } else {
-                                    $amount = $card['netValue']/70*100;
+                               
+                                $cards = [
+                                    10000 => [5000, 9000],
+                                    20000 => [10000, 17200],
+                                    30000 => [17201, 27000],
+                                    50000 => [27001, 49999],
+                                    100000 => [50000, 90000],
+                                    200000 => [100000, 172000],
+                                    300000 => [172001, 270000],
+                                    500000 => [270001, 499990]
+                                ];
+                                foreach ($cards as $amount => $range) {
+                                    if ($card['netValue'] >= $range[0] && $card['netValue'] <= $range[1]) {
+                                        $cash = Auth::user()->cash + ($amount - ($amount * $discount / 100));
+                                        break;
+                                    }
                                 }
 
-                                $user = User::find(auth()->id());
-                                $cash = Auth::user()->cash + ($amount - ($amount * $discount / 100));
-                                $user->cash = $cash;
-                                $user->save();
+                                Auth::user()->cash = $cash;
+                                Auth::user()->save();
 
                                 $recharge_bill->confirm = 1;
                                 $recharge_bill->save();
