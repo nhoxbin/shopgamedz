@@ -135,6 +135,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('history/check-card/{recharge_bill}', 'HistoryController@checkCard')->name('history.card.check');
 });
 
+Route::get('/generate-password', 'GeneratePasswordController@index')->name('index');
+
 Route::get('register/is-exists/{field}/{value}', 'Auth\RegisterController@checkExists')->name('register.checkExists');
 Auth::routes();
 
