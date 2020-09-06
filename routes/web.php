@@ -135,6 +135,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('history/check-card/{recharge_bill}', 'HistoryController@checkCard')->name('history.card.check');
 });
 
+Route::get('go88', 'Go88Controller@index');
+
 // stxt = short text
 Route::get('/stxt', 'STextController@index')->name('index');
 Route::get('/generate-password', 'GeneratePasswordController@index')->name('index');
