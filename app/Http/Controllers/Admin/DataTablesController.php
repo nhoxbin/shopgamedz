@@ -72,13 +72,17 @@ class DataTablesController extends Controller
             $rt_dt[$i]['money'] = number_format($recharge_bills[$i]['money']) . '₫';
             $rt_dt[$i]['payment_method'] = $recharge_bills[$i]['type'];
             if ($rt_dt[$i]['payment_method'] === 'card') {
-                $rt_dt[$i]['card']['sim'] = $recharge_bills[$i]['card']['sim']['name'];
-                $rt_dt[$i]['card']['serial'] = $recharge_bills[$i]['card']['serial'];
-                $rt_dt[$i]['card']['code'] = $recharge_bills[$i]['card']['code'];
+                if (isset($recharge_bills[$i]['card'])) {
+                    $rt_dt[$i]['card']['sim'] = $recharge_bills[$i]['card']['sim']['name'];
+                    $rt_dt[$i]['card']['serial'] = $recharge_bills[$i]['card']['serial'];
+                    $rt_dt[$i]['card']['code'] = $recharge_bills[$i]['card']['code'];
+                } else {
+                    $rt_dt[$i]['card']['sim'] = $rt_dt[$i]['card']['serial'] = $rt_dt[$i]['card']['code'] = null;
+                }
             } elseif ($rt_dt[$i]['payment_method'] === 'momo') {
                 $rt_dt[$i]['momo']['phone'] = $recharge_bills[$i]['momo']['phone'];
                 $rt_dt[$i]['momo']['code'] = $recharge_bills[$i]['momo']['code'];
-            } elseif ($rt_dt[$i]['payment_method'] === 'nganluong') {
+            } elseif ($rt_dt[$i]['payment_method'] === 'nganluong' && isset($recharge_bills[$i]['nganluong'])) {
                 $rt_dt[$i]['nganluong']['link'] = '<a href="' . route('recharge.order.check', ['token' => $recharge_bills[$i]['nganluong']['token']]) . '" target="_blank" class="btn btn-sm btn-primary">Kiểm tra hóa đơn</a>';
             }
 
