@@ -72,7 +72,7 @@ class DataTablesController extends Controller
             $rt_dt[$i]['money'] = number_format($recharge_bills[$i]['money']) . '₫';
             $rt_dt[$i]['payment_method'] = $recharge_bills[$i]['type'];
             if ($rt_dt[$i]['payment_method'] === 'card') {
-                if (isset($recharge_bills[$i]['card'])) {
+                if (isset($recharge_bills[$i]['card']) && isset($recharge_bills[$i]['card']['sim'])) {
                     $rt_dt[$i]['card']['sim'] = $recharge_bills[$i]['card']['sim']['name'];
                     $rt_dt[$i]['card']['serial'] = $recharge_bills[$i]['card']['serial'];
                     $rt_dt[$i]['card']['code'] = $recharge_bills[$i]['card']['code'];
