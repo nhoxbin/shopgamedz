@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\BoxEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Game;
-use App\Package;
 use App\Sim;
 use App\RechargeBill;
 
@@ -96,6 +96,29 @@ class DataTablesController extends Controller
             } else {
                 $rt_dt[$i]['actions'] = 'Hóa đơn đã được duyệt.';
             }
+        }
+        return response($rt_dt);
+    }
+
+    public function listEvent() {
+        $event = BoxEvent::all();
+        $event_count = $event->count();
+        $last_box_total = 0;
+        $rt_dt = [];
+        for ($i = 0; $i < $event_count; $i++) {
+            $rt_dt[$i]['name'] = $event[$i]['name'];
+            $rt_dt[$i]['image'] = $event[$i]['image'];
+            $rt_dt[$i]['box_total'] = $event[$i]['box_total'];
+            $rt_dt[$i]['box_id'] = $event[$i]['box_id'] - $last_box_total;
+            $last_box_total = $event[$i]['box_total'];
+            $rt_dt[$i]['amount'] = number_format($event[$i]['amount']);
+            $rt_dt[$i]['prize'] = $event[$i]['prize'];
+            $rt_dt[$i]['giftcode'] = $event[$i]['giftcode'];
+            $rt_dt[$i]['hdsd'] = $event[$i]['hdsd'];
+            $rt_dt[$i]['actions'] = '<div class="btn-group btn-group-sm" role="group" aria-label="action button">
+                                        <button type="button" class="btn btn-danger" onclick="app.deleteEvent('.$event[$i]['id'].')">Xóa</button>
+                                    </div>';
+                                    // <button type="button" class="btn btn-info" data-toggle="modal" data-target="#eventModal" onclick="app.editEvent('.$event[$i]['id'].')">Sửa</button>
         }
         return response($rt_dt);
     }

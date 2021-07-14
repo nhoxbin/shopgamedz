@@ -18,7 +18,12 @@ Route::group([
         'only' => ['index', 'destroy']
     ]);
 
-    // nạp tiền
+    // Rương
+    Route::resource('box_event', 'BoxEventController', [
+        'only' => ['index', 'store', 'edit', 'update', 'destroy']
+    ]);
+
+    // thành viên
     Route::resource('user', 'UserController', [
         'names' => 'user',
         'only' => ['index', 'show', 'update', 'destroy']
@@ -77,6 +82,8 @@ Route::group([
         'prefix' => 'datatables',
         'middleware' => 'ajax'
     ], function() {
+        Route::get('event', 'DataTablesController@listEvent')->name('event');
+
         Route::get('game', 'DataTablesController@listGame')->name('game');
         Route::get('game/{game_id}', 'DataTablesController@listPackage')->name('game.package');
         Route::get('sim', 'DataTablesController@listSim')->name('sim');
@@ -99,6 +106,12 @@ Route::group(['middleware' => 'auth'], function() {
     // Lắc xì
     Route::resource('shake', 'ShakeController', [
         'only' => ['create', 'store']
+    ]);
+
+    // Mở rương
+    Route::get('instruction', 'BoxEventController@instruction')->name('box-event-instruction');
+    Route::resource('box-event', 'BoxEventController', [
+        'only' => ['index', 'show', 'update']
     ]);
 
     // chuyển tiền
@@ -161,4 +174,3 @@ Route::get('migrate/{password}', function($password) {
         echo $exitCode;
     }
 });
-

@@ -25,14 +25,14 @@
   <div class="sidebar-heading">
     Shop
   </div>
-  
+
   <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.staff.report.bill.index') }}">
       <i class="fas fa-fw fa-users"></i>
       <span>Báo cáo NV</span>
     </a>
   </li>
-  
+
   <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.user.index') }}">
       <i class="fas fa-fw fa-users"></i>
@@ -61,6 +61,13 @@
     </a>
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('admin.box_event.index') }}">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>Rương</span>
+    </a>
+  </li>
+
   <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -79,12 +86,12 @@
 
   <!-- Divider -->
   <!-- <hr class="sidebar-divider">
-  
+
   Heading
   <div class="sidebar-heading">
     Bet
   </div>
-  
+
   Nav Item - Charts
   <li class="nav-item">
     <a class="nav-link" href="#">

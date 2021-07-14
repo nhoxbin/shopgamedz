@@ -32,10 +32,10 @@ class TransferController extends Controller
         	if ($money > $user->cash) {
         		return response(['success' => false, 'msg' => 'Bạn không được chuyển lớn hơn số tiền bạn đang có!'], 200);
         	}
-            if (!is_numeric($money) || $money < 100000) {
-                return response(['success' => false, 'msg' => 'Số tiền phải là số và chuyển lớn hơn 100K'], 200);
+            if (!is_numeric($money) || $money < 1000) {
+                return response(['success' => false, 'msg' => 'Số tiền phải là số và chuyển lớn hơn 1K'], 200);
             }
-        	
+
         	$user->cash -= $money;
         	$user->save();
         	$to->cash += $money;

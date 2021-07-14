@@ -67,6 +67,16 @@
 	        </div>
 	    </a>
 	</div>
+	<div class="other-function-container">
+	    <a href="{{ route('box-event.index') }}">
+	        <div class="other-function-content shadow">
+	            <img src="{{ asset('images/box/ezgif-2-f654398e7855.gif') }}">
+	            <div class="content-text">
+	                <span>Mở rương nhận quà khủng</span>
+	            </div>
+	        </div>
+	    </a>
+	</div>
 </div>
 @endsection
 @push('style')

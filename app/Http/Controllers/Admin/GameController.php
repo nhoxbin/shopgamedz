@@ -36,7 +36,7 @@ class GameController extends Controller
         }
         $url = time() . '.' . $request->picture->getClientOriginalExtension();
         $request->picture->move('uploads', $url);
-        $game = Game::create([
+        Game::create([
             'name' => $request->name,
             'picture' => 'uploads/' . $url,
             'type' => $request->type,
