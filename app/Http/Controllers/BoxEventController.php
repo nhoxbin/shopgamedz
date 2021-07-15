@@ -28,9 +28,9 @@ class BoxEventController extends Controller
     public function update(Request $request) {
         $box = Box::find($request->box_id);
         if (!empty($box->user_id)) return response('Rương này đã có người mở!');
-        if ($request->user()->cash - $box->amount < 0) return response('Bạn không đủ tiền mở rương!');
+        if ($request->user()->cash - $box->box_event->amount < 0) return response('Bạn không đủ tiền mở rương!');
 
-        $request->user()->cash -= $box->amount;
+        $request->user()->cash -= $box->box_event->amount;
         $request->user()->save();
 
         $box->user_id = $request->user()->id;
