@@ -7,56 +7,61 @@
             <div class="col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
+                        <p>Kết quả mã hóa MD5:</p>
+                        <div style="text-align: center;">
+                            <pre>{{ md5('['.$boxEvent->chars . '][KetQua:#' . $boxEvent->box_id . ']') }}</pre>
+                            @if ($boxEvent->is_event_end)
+                                <p>Kết quả gốc:</p>
+                                <pre>{{ '['.$boxEvent->chars . '][KetQua:#' . $boxEvent->box_id . ']' }}</pre>
+                            @endif
+                        </div>
+                        <div>Đây là kết quả rương trúng thưởng đã được mã hóa để thể hiện tính minh bạch!</div>
+                        <div>=> <a href="{{ route('box-event-instruction') }}" style="font-weight: bold">Nhấn vào đây để tìm hiểu thêm</a> <=</div>
+                        <br>
+                        @if ($is_user_win)
+                            <button class="btn btn-primary" @@click="showHDSD('{{ $boxEvent->giftcode }}', '{{ $boxEvent->hdsd }}')">Nhận thưởng</button>
+                            <br>
+                            <br>
+                        @endif
+
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#event-start">Rương</a></li>
                             <li class=""><a data-toggle="tab" href="#event-end">Hoạt động</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="event-start" class="tab-pane fade in active">
-                                <p>Kết quả mã hóa MD5:</p>
-                                <div style="text-align: center;">
-                                    <pre>{{ md5($boxEvent->chars . '|' . $boxEvent->box_id) }}</pre>
-                                    @if ($boxEvent->is_event_end)
-                                        <p>Kết quả gốc:</p>
-                                        <pre>{{ $boxEvent->chars . '|' . $boxEvent->box_id . ' => Rương trúng: '.$boxEvent->box_id }}</pre>
-                                    @endif
-                                </div>
-                                <div>Đây là kết quả rương trúng thưởng đã được mã hóa để thể hiện tính minh bạch! => <a href="{{ route('box-event-instruction') }}" style="font-weight: bold">Nhấn vào đây để tìm hiểu thêm</a> <=</div>
-                                <br><br>
-                                @if ($boxEvent)
-                                    <p>Trong tất cả các rương chỉ có 1 rương trúng thưởng. Vì vậy kết quả sẽ có khi tất cả các rương được mở! Hãy mở nhiều rương để tăng tỉ lệ trúng nhé! Nếu tất cả rương đã mở, hãy refresh lại trang để xem rương nào đã trúng</p>
-                                    <p>Phí mở rương: <b>{{ number_format($boxEvent->amount) }}<sup>đ</sup></b></p>
-                                    <div class="boxHadiah">
-                                        @foreach ($boxEvent->boxes as $key => $item)
-                                            <div class="kotak">
-                                                <div class="imgBox">
-                                                    @if ($boxEvent->is_event_end)
-                                                        @if ($item->id == $boxEvent->box_id)
-                                                            <img src="/images/box/ezgif-2-f654398e7855.gif">
-                                                        @else
-                                                            <img src="/images/box/ezgif-2-fb8a95d582da.gif">
-                                                        @endif
+                                <p>Trong tất cả các rương chỉ có 1 rương trúng thưởng. Vì vậy kết quả sẽ có khi tất cả các rương được mở! Hãy mở nhiều rương để tăng tỉ lệ trúng nhé! Nếu tất cả rương đã mở, hãy refresh lại trang để xem rương nào đã trúng</p>
+                                <p>Phí mở rương: <b>{{ number_format($boxEvent->amount) }}<sup>đ</sup></b></p>
+                                <div class="boxHadiah">
+                                    @foreach ($boxEvent->boxes as $key => $item)
+                                        <div class="kotak">
+                                            <div class="imgBox">
+                                                @if ($boxEvent->is_event_end)
+                                                    @if ($item->id == $boxEvent->box_id)
+                                                        <img src="/images/box/prize.gif">
                                                     @else
-                                                        <img src="/images/box/SsK0gZ4.gif">
+                                                        <img src="/images/box/ezgif-2-fb8a95d582da.gif">
                                                     @endif
-                                                    <span class="stt @if(!empty($item->user_id))unboxed @endif">#{{ $key+1 }}</span>
-                                                </div>
-                                                <span class="desc @if(!empty($item->user_id))unboxed @endif">
-                                                    @if (empty($item->user_id))
-                                                        <button @@click="unbox($event, {{ $item->id }}, {{ $key+1 }})">Nhấn để mở</button>
-                                                    @else
-                                                        Rương đã mở
-                                                    @endif
-                                                </span>
+                                                @else
+                                                    <img src="/images/box/SsK0gZ4.gif">
+                                                @endif
+                                                <span class="stt @if(!empty($item->user_id))unboxed @endif">#{{ $key+1 }}</span>
                                             </div>
-                                        @endforeach
+                                            <span class="desc @if(!empty($item->user_id))unboxed @endif">
+                                                @if (empty($item->user_id))
+                                                    <button @@click="unbox($event, {{ $item->id }}, {{ $key+1 }})">Nhấn để mở</button>
+                                                @else
+                                                    Rương đã mở
+                                                @endif
+                                            </span>
+                                        </div>
+                                    @endforeach
                                     </div>
-                                @endif
                             </div>
 
                             <div id="event-end" class="tab-pane fade">
                                 @forelse ($unbox as $key => $item)
-                                    <p>{{ $item->user->name }} Mở Rương #{{ $key+1 }} vào lúc {{ $item->updated_at->format('d/m/Y H:i') }}</p>
+                                    <p>{{ $item->user->name }} Mở Rương #{{ $item->stt }} vào lúc {{ $item->updated_at->format('d/m/Y H:i') }}</p>
                                 @empty
                                     Chưa có hoạt động nào
                                 @endforelse
@@ -122,7 +127,10 @@
 				        ]
 					});
 				}); */
-			}
+			},
+            showHDSD(giftcode, hdsd) {
+                alert(giftcode);
+            }
 		}
 	})
 </script>

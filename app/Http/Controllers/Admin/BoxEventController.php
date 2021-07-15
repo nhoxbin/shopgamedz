@@ -39,6 +39,7 @@ class BoxEventController extends Controller
             $boxes = [];
             for ($i=0; $i < $request->box_total; $i++) {
                 array_push($boxes, [
+                    'stt' => $i+1,
                     'box_event_id' => $event->id,
                     "created_at" =>  \Carbon\Carbon::now(),
                     "updated_at" => \Carbon\Carbon::now(),

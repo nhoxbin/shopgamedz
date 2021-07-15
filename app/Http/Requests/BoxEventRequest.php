@@ -24,11 +24,10 @@ class BoxEventRequest extends FormRequest
      */
     public function rules()
     {
-        $min = Box::count() + 1;
         $box_total = request()->box_total;
         return [
             'name' => 'required|string',
-            'image' => 'required|image',
+            'image' => 'required',
             'box_total' => 'required|numeric',
             'amount' => 'required|numeric',
             'box_id' => 'required|numeric|min:1|max:'.$box_total,

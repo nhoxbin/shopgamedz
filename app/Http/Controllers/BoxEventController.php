@@ -13,7 +13,10 @@ class BoxEventController extends Controller
     }
 
     public function index() {
-        $events = BoxEvent::all();
+        $events = BoxEvent::whereHas('boxes', function($q) {
+            $q->where('user_id', null);
+        })->orderBy('created_at', 'desc')->get();
+
         $events_end = BoxEvent::whereHas('boxes', function($q) {
             $q->where('user_id', '!=', null);
         })->get();
@@ -21,8 +24,9 @@ class BoxEventController extends Controller
     }
 
     public function show(BoxEvent $boxEvent) {
-        $unbox = Box::where('user_id', '!=', null)->get();
-        return view('boxes', compact('boxEvent', 'unbox'));
+        $unbox = $boxEvent->boxes()->where('user_id', '!=', null)->get();
+        $is_user_win = ($unbox->count() == $boxEvent->box_total) && ($boxEvent->boxes()->find($boxEvent->box_id)->user_id == auth()->id());
+        return view('boxes', compact('boxEvent', 'unbox', 'is_user_win'));
     }
 
     public function update(Request $request) {
