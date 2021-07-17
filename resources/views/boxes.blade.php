@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Rương')
+@section('title', 'Sự kiện ' . $boxEvent->name)
 @section('payment-body')
 <div class="payment-body main_df_bt">
     <div class="row">
@@ -60,7 +60,7 @@
                                         <div class="kotak">
                                             <div class="imgBox">
                                                 @if ($boxEvent->is_event_end)
-                                                    @if ($item->id == $boxEvent->box_id)
+                                                    @if ($item->stt == $boxEvent->box_id)
                                                         <img src="/images/box/prize.gif">
                                                     @else
                                                         <img src="/images/box/ezgif-2-fb8a95d582da.gif">

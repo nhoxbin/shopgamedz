@@ -37,7 +37,6 @@ class BoxEventController extends Controller
         try {
             $validated = $request->validated();
             $validated['chars'] = $this->random();
-            $validated['box_id'] = Box::count() + $request->box_id;
             $validated['image'] = $url;
             $event = BoxEvent::create($validated);
 

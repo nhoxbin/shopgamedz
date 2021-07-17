@@ -25,7 +25,8 @@ class BoxEventController extends Controller
 
     public function show(BoxEvent $boxEvent) {
         $unbox = $boxEvent->boxes()->where('user_id', '!=', null)->get();
-        $is_user_win = ($unbox->count() == $boxEvent->box_total) && ($boxEvent->boxes()->find($boxEvent->box_id)->user_id == auth()->id());
+        $boxEventPrize = $boxEvent->boxes()->where('stt', $boxEvent->box_id)->first();
+        $is_user_win = ($unbox->count() == $boxEvent->box_total) && ($boxEventPrize->user_id == auth()->id());
         return view('boxes', compact('boxEvent', 'unbox', 'is_user_win'));
     }
 

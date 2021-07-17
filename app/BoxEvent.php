@@ -17,6 +17,6 @@ class BoxEvent extends Model
     }
 
     public function boxes_remain() {
-        return $this->boxes()->where('user_id', '!=', null)->count();
+        return $this->boxes()->where('user_id', null)->count();
     }
 }
