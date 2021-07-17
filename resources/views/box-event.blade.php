@@ -38,8 +38,8 @@
                                             <div class="other-function-content shadow">
                                                 <img src="/uploads/{{ $event->image }}" style="width: 120px">
                                                 <div class="content-text">
-                                                    <span>{{ $event->name }}</span><br>
-                                                    <span>Phần thưởng: {{ $event->prize }}</span>
+                                                    <span><b>{{ $event->name }}</b></span><br>
+                                                    <span><b>Phần thưởng:</b> {{ $event->prize }}</span>
                                                 </div>
                                             </div>
                                         </a>

@@ -19,7 +19,30 @@
                         <div>=> <a href="{{ route('box-event-instruction') }}" style="font-weight: bold">Nhấn vào đây để tìm hiểu thêm</a> <=</div>
                         <br>
                         @if ($is_user_win)
-                            <button class="btn btn-primary" @@click="showHDSD('{{ $boxEvent->giftcode }}', '{{ $boxEvent->hdsd }}')">Nhận thưởng</button>
+                            <div class="text-center">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#prize">Nhận thưởng</button>
+                            </div>
+                            <!-- Modal -->
+                            <div id="prize" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Nhận phần thưởng</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Giftcode:
+                                            <pre align="center">{{ $boxEvent->giftcode }}</pre>
+                                            Hướng dẫn sử dụng:<br>
+                                            {{ $boxEvent->hdsd }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <br>
                             <br>
                         @endif
@@ -127,10 +150,7 @@
 				        ]
 					});
 				}); */
-			},
-            showHDSD(giftcode, hdsd) {
-                alert(giftcode);
-            }
+			}
 		}
 	})
 </script>
