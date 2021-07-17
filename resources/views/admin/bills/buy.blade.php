@@ -42,6 +42,9 @@
 					</thead>
 					<tbody>
 						@foreach($buy_bills as $history)
+						@if (empty($history['package']))
+							@dd($history['package'])
+						@endif
 					  		<tr>
 					  			<td>{{ $history['id'] }}</td>
 					  			<td>{{ $history['user']['name'] }}</td>
