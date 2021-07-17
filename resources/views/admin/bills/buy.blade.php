@@ -42,14 +42,11 @@
 					</thead>
 					<tbody>
 						@foreach($buy_bills as $history)
-						@if (empty($history['package']))
-							@dd($history['package'])
-						@endif
 					  		<tr>
 					  			<td>{{ $history['id'] }}</td>
 					  			<td>{{ $history['user']['name'] }}</td>
 					  			<td>{{ !empty($history['package']) ? (number_format($history['package']['money_in_game']) . $history['package']['game']['sort_currency']) : null }}</td>
-					  			<td>{{ $history['package']['game']['name'] }}</td>
+					  			<td>{{ !empty($history['package']) ? $history['package']['game']['name'] : null }}</td>
 					  			<td>{{ $history['account_type'] }}</td>
 					  			<td>{{ $history['name_character'] }}</td>
 					  			<td>{{ $history['info'] }}</td>
