@@ -64,7 +64,14 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.box_event.index') }}">
       <i class="fas fa-fw fa-chart-area"></i>
-      <span>Rương</span>
+      <span>Sự kiện rương</span>
+    </a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('admin.boxes') }}">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>Rương đã mở</span>
     </a>
   </li>
 
