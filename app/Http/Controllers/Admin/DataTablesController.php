@@ -103,14 +103,12 @@ class DataTablesController extends Controller
     public function listEvent() {
         $event = BoxEvent::all();
         $event_count = $event->count();
-        $last_box_total = 0;
         $rt_dt = [];
         for ($i = 0; $i < $event_count; $i++) {
             $rt_dt[$i]['name'] = $event[$i]['name'];
             $rt_dt[$i]['image'] = $event[$i]['image'];
             $rt_dt[$i]['box_total'] = $event[$i]['box_total'];
-            $rt_dt[$i]['box_id'] = $event[$i]['box_id'] - $last_box_total;
-            $last_box_total = $event[$i]['box_total'];
+            $rt_dt[$i]['box_id'] = $event[$i]['box_id'];
             $rt_dt[$i]['amount'] = number_format($event[$i]['amount']);
             $rt_dt[$i]['prize'] = $event[$i]['prize'];
             $rt_dt[$i]['giftcode'] = $event[$i]['giftcode'];
