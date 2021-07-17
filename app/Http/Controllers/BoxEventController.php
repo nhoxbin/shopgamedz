@@ -19,7 +19,7 @@ class BoxEventController extends Controller
 
         $events_end = BoxEvent::whereHas('boxes', function($q) {
             $q->where('user_id', '!=', null);
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
         return view('box-event', compact('events', 'events_end'));
     }
 

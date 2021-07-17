@@ -19,8 +19,9 @@ Route::group([
     ]);
 
     // Rương
+    Route::get('boxes', 'BoxEventController@listBoxes');
     Route::resource('box_event', 'BoxEventController', [
-        'only' => ['index', 'store', 'edit', 'update', 'destroy']
+        'only' => ['index', 'store', 'update', 'destroy']
     ]);
 
     // thành viên

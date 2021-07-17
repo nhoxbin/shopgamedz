@@ -15,6 +15,11 @@ class BoxEventController extends Controller
         return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
     }
 
+    public function listBoxes() {
+        $boxes = Box::all();
+        return view('admin.boxes', compact('boxes'));
+    }
+
     public function index() {
         $bEvent = BoxEvent::all();
         return view('admin.box-event', compact('bEvent'));
@@ -52,14 +57,6 @@ class BoxEventController extends Controller
         }
 
         return response($msg, 201);
-    }
-
-    public function show(BoxEvent $boxEvent) {
-
-    }
-
-    public function edit(BoxEvent $boxEvent) {
-
     }
 
     public function update(BoxEventRequest $request, BoxEvent $boxEvent) {
