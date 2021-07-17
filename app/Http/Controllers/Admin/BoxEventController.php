@@ -16,7 +16,7 @@ class BoxEventController extends Controller
     }
 
     public function listBoxes() {
-        $boxes = Box::all();
+        $boxes = Box::where('user_id', '!=', null)->get();
         return view('admin.boxes', compact('boxes'));
     }
 
