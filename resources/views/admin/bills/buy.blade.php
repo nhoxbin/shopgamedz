@@ -45,7 +45,7 @@
 					  		<tr>
 					  			<td>{{ $history['id'] }}</td>
 					  			<td>{{ $history['user']['name'] }}</td>
-					  			<td>{{ number_format($history['package']['money_in_game']) . $history['package']['game']['sort_currency'] }}</td>
+					  			<td>{{ !empty($history['package']) ? (number_format($history['package']['money_in_game']) . $history['package']['game']['sort_currency']) : null }}</td>
 					  			<td>{{ $history['package']['game']['name'] }}</td>
 					  			<td>{{ $history['account_type'] }}</td>
 					  			<td>{{ $history['name_character'] }}</td>
