@@ -22,7 +22,7 @@
 						@foreach ($boxes as $item)
 							<tr>
 								<td>{{ $item->user->name }}</td>
-								<td>{{ $item->box_event->name }}</td>
+								<td>{{ !empty($item->box_event) ? $item->box_event->name : null }}</td>
 								<td>{{ $item->stt }}</td>
 								<td>{{ !empty($item->user->phone) ? $item->user->phone : null }}</td>
 								<td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
