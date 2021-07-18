@@ -16,7 +16,7 @@ class BoxEventController extends Controller
     }
 
     public function listBoxes() {
-        $boxes = Box::where('user_id', '!=', null)->orderBy('updated_at', 'desc')->get();
+        $boxes = Box::where('user_id', '!=', null)->with('user', 'box_event')->orderBy('updated_at', 'desc')->get();
         return view('admin.boxes', compact('boxes'));
     }
 
