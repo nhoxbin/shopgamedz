@@ -57,8 +57,13 @@
                             <tr>
                                 <td>{{ $buy_bill['created_at'] }}</td>
                                 <td>{{ $buy_bill['id'] }}</td>
-                                <td>{{ $buy_bill['package']['money_in_game'].' '.$buy_bill['package']['game']['currency'] }}</td>
-                                <td>{{ $buy_bill['package']['game']['name'] }}</td>
+                                @if (!empty($buy_bill['package']) && !empty($buy_bill['package']['game']))
+                                    <td>{{ $buy_bill['package']['money_in_game'].' '.$buy_bill['package']['game']['currency'] }}</td>
+                                    <td>{{ $buy_bill['package']['game']['name'] }}</td>
+                                @else
+                                    <td></td>
+                                    <td></td>
+                                @endif
                                 <td>
                                     @if($buy_bill['confirm'] === -1)
                                         Hóa đơn ko được chấp nhận. Lý do: {{ $buy_bill['reason'] }}
@@ -147,7 +152,7 @@
             $('#tblRecharge').DataTable({
                 order: [[ 0, 'desc' ]]
             });
-            
+
             $('#tblTransfer').DataTable({
                 order: [[ 0, 'desc' ]]
             });
