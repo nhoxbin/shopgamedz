@@ -33,7 +33,7 @@
                                 </td>
                                 <td>{{ $recharge_bill['id'] }}</td>
                                 <td>{{ number_format($recharge_bill['money']) }}₫</td>
-                                <td>{{ $recharge_bill['type'] . '(' . $recharge_bill['card']['sim']['name'] . ')' }}</td>
+                                <td>{{ $recharge_bill['type'] . '(' . ($recharge_bill['type'] === 'card' ? $recharge_bill['card']['sim']['name'] : null) . ')' }}</td>
                             </tr>
                         @endforeach
                     </tbody>
