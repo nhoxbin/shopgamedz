@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Box;
 use App\BoxEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BoxEventController extends Controller
 {
@@ -16,10 +17,7 @@ class BoxEventController extends Controller
         $events = BoxEvent::whereHas('boxes', function($q) {
             $q->where('user_id', null);
         })->orderBy('created_at', 'desc')->get();
-
-        $events_end = BoxEvent::whereHas('boxes', function($q) {
-            $q->where('user_id', '!=', null);
-        })->orderBy('created_at', 'desc')->get();
+        $events_end = BoxEvent::whereNotIn('id', $events->pluck('id')->toArray())->orderBy('created_at', 'desc')->get();
         return view('box-event', compact('events', 'events_end'));
     }
 
